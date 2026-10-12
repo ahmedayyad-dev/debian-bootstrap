@@ -1,0 +1,43 @@
+# debian-bootstrap configuration.
+# Copy to config/bootstrap.toml and adjust. All values are optional; the
+# defaults below are used when a key is omitted.
+
+[user]
+# Non-root sudo user that will be created (must NOT be "root").
+name = "ahmed"
+shell = "/bin/bash"
+groups = ["sudo"]
+# Paste the public key inline here, or leave empty and set a path.
+ssh_public_key = ""
+ssh_public_key_path = "~/.ssh/id_ed25519.pub"
+
+[ssh]
+port = 22
+permit_root_login = false
+password_authentication = false
+
+[ufw]
+ports = [22, 80, 443]
+
+[fail2ban]
+enabled = true
+maxretry = 5
+bantime = "1h"
+
+[updates]
+unattended_upgrades = true
+auto_reboot = false
+auto_reboot_time = "03:30"
+
+[docker]
+install = true
+# Empty -> use [user].name.
+user = ""
+
+[swap]
+size = "2G"
+swappiness = 10
+
+[time]
+timezone = "UTC"
+ntp = true

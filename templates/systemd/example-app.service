@@ -1,0 +1,30 @@
+# Example hardened application unit installed by debian-bootstrap.
+# Copy and adapt for your own service, or edit this file before running step
+# "systemd". Uses %i so it can also be enabled per-instance:
+#
+#   sudo systemctl enable --now example-app@myapp
+#
+[Unit]
+Description=Example application '%i'
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=%i
+Group=%i
+WorkingDirectory=/opt/%i
+ExecStart=/opt/%i/run.sh
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=-/etc/default/%i
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/%i
+
+[Install]
+WantedBy=multi-user.target
